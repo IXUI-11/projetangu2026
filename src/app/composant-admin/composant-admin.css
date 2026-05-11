@@ -1,0 +1,285 @@
+/* PAGE */
+.page-admin {
+  background-color: #131313;
+  min-height: 100vh;
+  color: #e6e6e6;
+  padding: 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.conteneur {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.entete-page {
+  margin-bottom: 1.5rem;
+}
+
+.titre-page {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 0;
+  color: #e6e6e6;
+}
+
+/* LIGNES */
+.ligne-cartes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.ligne-bas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Deux colonnes égales */
+  gap: 1.5rem;
+  margin-top: 1.5rem; /* Ajoute l'espace pour TOUTE la ligne */
+}
+
+/* CARTES */
+.carte {
+  background-color: #1c1c1c;
+  border: 1px solid #3d3d3d;
+  border-radius: 3px;
+  min-height: 160px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.carte-corps {
+  padding: 1rem 1.5rem;
+}
+
+.carte-valeur {
+  display: block;
+  height: 2.7rem;
+  font-size: 2.1rem;
+  line-height: 2.7rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.carte-titre {
+  color: #9aa0ac;
+  font-size: 13px;
+}
+
+/* CARTE STATS */
+.carte-stats {
+  max-width: 100%; /* Optionnel : pour que la carte prenne toute sa colonne */
+}
+
+.carte-entete {
+  background: transparent;
+  border-bottom: 1px solid #3d3d3d;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.5rem;
+  min-height: 3.5rem;
+}
+
+.carte-titre {
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: #e6e6e6;
+  margin: 0;
+}
+
+.carte-sous-titre {
+  color: #9aa0ac;
+  font-size: 0.875rem;
+  margin: 4px 0 0;
+}
+
+.carte-contenu {
+  padding: 1rem 1.5rem;
+  max-height: 400px; /* ou 60vh si tu préfères */
+  overflow-y: auto;
+}
+
+.categorie-nom {
+  color: #467fcf;
+  font-weight: 600;
+  padding: 0.75rem 0;
+  margin-top: 1rem;
+  border-bottom: 1px solid #2a2a2a;
+  background: #252525;
+  z-index: 2;
+}
+
+.modele-ligne {
+  display: grid;
+  grid-template-columns: 1fr 120px 90px 90px;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left:;
+
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #3d3d3d;
+}
+
+.btn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.btn-modifier {
+  background: rgba(70, 127, 207, 0.15);
+  color: #467fcf;
+  border: 1px solid rgba(70, 127, 207, 0.3);
+}
+
+.btn-modifier:hover {
+  background: #467fcf;
+  color: white;
+}
+
+.btn-supprimer {
+  background: rgba(205, 32, 31, 0.15);
+  color: #cd201f;
+  border: 1px solid rgba(205, 32, 31, 0.3);
+}
+
+.btn-supprimer:hover {
+  background: #cd201f;
+  color: white;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #1c1c1c;
+  border: 1px solid #3d3d3d;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-entete h2 {
+  color: #e6e6e6;
+  margin: 0;
+}
+
+.btn-fermer {
+  background: none;
+  border: none;
+  color: #9aa0ac;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.btn-fermer:hover {
+  color: #e6e6e6;
+}
+
+.modal label {
+  color: #9aa0ac;
+  font-size: 0.85rem;
+}
+
+.modal input,
+.modal textarea {
+  background-color: #131313;
+  border: 1px solid #3d3d3d;
+  border-radius: 4px;
+  color: #e6e6e6;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.modal textarea {
+  height: 100px;
+  resize: none;
+}
+
+.modal input:focus,
+.modal textarea:focus {
+  border-color: #467fcf;
+  outline: none;
+}
+
+.modal-boutons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.modal-boutons button:first-child {
+  background-color: #3d3d3d;
+  color: #e6e6e6;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-boutons button:last-child {
+  background-color: #467fcf;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* COMPTEURS */
+.ligne-compteur {
+  border-top: 1px solid #3d3d3d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+}
+
+.titre {
+  color: #e6e6e6;
+  font-size: 0.9rem;
+}
+
+.valeur strong {
+  color: #467fcf;
+}
+
+/* COULEURS */
+.texte-bleu {
+  color: #467fcf !important;
+}
+.texte-vert {
+  color: #5eba00 !important;
+}
+.texte-jaune {
+  color: #f1c40f !important;
+}
+.texte-rouge {
+  color: #cd201f !important;
+}

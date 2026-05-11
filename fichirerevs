@@ -1,0 +1,61 @@
+📦 Intégration de l’API Angular
+📁 Fichiers modifiés
+🔧 app.config.ts
+
+Ajout de la configuration du routing et du client HTTP :
+
+import { provideHttpClient } from '@angular/common/http';
+
+providers: [
+  provideRouter(routes),
+  provideHttpClient()
+];
+
+provideHttpClient() permet d’activer les appels API dans l’application.
+
+🌐 services/materiel.service.ts
+
+Implémentation des appels API :
+
+private apiLien = 'http://localhost:5088';
+
+constructor(private http: HttpClient) {}
+
+getMaterielApi(): Observable<Materiel[]> {
+  return this.http.get<Materiel[]>(`${this.apiLien}/Materiel/Search`);
+}
+
+// Endpoint pour les catégories
+getCategoriesApi(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiLien}/Categorie/Search`);
+}
+
+getCategoriesAvecMateriels(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiLien}/Categorie/CategoriesAvecMateriels`);
+}
+🧩 composant-categorie/composant-categorie.ts
+
+Utilisation de l’API dans le composant :
+
+import { ChangeDetectorRef } from '@angular/core';
+
+constructor(
+  private materielService: MaterielService,
+  private cd: ChangeDetectorRef
+) {}
+
+ngOnInit() {
+  this.materielService.getCategoriesAvecMateriels().subscribe({
+    next: (data) => {
+      this.categories = data;
+      this.cd.detectChanges(); // force la mise à jour du HTML
+      console.log(this.categories);
+    },
+    error: (err) => console.error(err)
+  });
+}
+✅ Remarques
+HttpClient permet de communiquer avec l’API backend
+provideHttpClient() active le système HTTP dans Angular
+ChangeDetectorRef est utilisé pour forcer la mise à jour de la vue
+L’API est accessible via : http://localhost:5088

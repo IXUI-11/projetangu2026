@@ -1,0 +1,2 @@
+la c'est la branche finale
+j'ai modifier le css a jour et j'ai rajouter le dossiermodel qui conteint les classe materiel et categoerie car avant c'etait des dans service materiel avec une interface et je ne pouvais pas cree d'instance comme une class  et non et pour appler je deveias appeler tout la service materialservice.ts et

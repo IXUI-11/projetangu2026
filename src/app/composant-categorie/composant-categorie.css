@@ -1,0 +1,293 @@
+/* ── Page wrapper ── */
+.page-catalogue {
+  background-color: #0b0b0b;
+  min-height: 100vh;
+  padding-top: 50px; /* 👈 ajoute ça */
+
+}
+
+/* ── Titre principal ── */
+.titre-liste-materiels {
+  font-size: 50px;
+  color: #ffffff;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+/* ── Description sous le titre ── */
+.description-catalogue {
+  font-size: 20px;
+  margin: 0;
+  line-height: 1.2;
+  margin-top: 10px;
+}
+
+/* ── Conteneur titre + description ── */
+.titre-description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  color :#ffffff;
+
+
+}
+
+/* ── Wrapper liste ── */
+.liste-materiels {
+  padding: 40px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  /* background-color: #010101; */
+}
+
+/* ── Grille cartes : flex wrap centré comme IG ── */
+.cartes-horizontal,
+.categorie-materiels-horizontal {
+  display: flex;
+  position: relative;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+/* ── Item : largeur fixe comme IG (~380px) ── */
+.carte-materiel {
+  width: 380px;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  transition: none;
+}
+
+/* ── Zone image (carte-haut) : ratio 16/9.2 comme IG ── */
+.carte-haut {
+  aspect-ratio: 16 / 9.2;
+  width: 100%;
+  background: linear-gradient(135deg, #1c2a35 0%, #141e25 50%, #0e1318 100%);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  transition: transform 0.3s ease;
+}
+
+/* Scale au hover sur la zone image uniquement ── */
+.carte-materiel:hover .carte-haut {
+  transform: scale(1.055);
+}
+
+/* ── Barre info bas (nom + prix) ── */
+.carte-bas {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 15px;
+  color: #ffffff;
+  font-weight: 400;
+  padding: 0;
+  background: transparent;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ── Détail matériel ── */
+.detail-materiel {
+  padding: 60px 80px;
+  max-width: 1400px;
+  margin: 100px auto ;
+  box-sizing: border-box;
+  color: white;
+  background-color: #1f1f1f;
+}
+
+.detail-materiel h1 {
+  font-size: clamp(24px, 4vw, 48px);
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: #ffffff;
+}
+
+.detail-materiel p {
+  font-size: 20px;
+  color: #ffdffd;
+  margin: 0 0 6px 0;
+  line-height: 1.6;
+}
+
+/* ── Bouton retour ── */
+button.retour {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background-color: #ffffff;
+  border: 1px solid #2e2e2e;
+  border-radius: 6px;
+  color: #000000;
+  cursor: pointer;
+  font-size: 13px;
+  margin-top: 32px;
+  transition: background-color 0.15s, color 0.15s;
+  font-size:16px
+}
+
+/* button.retour:hover {
+  background-color: #2a2a2a;
+  color: #ffffff;
+} */
+
+/* ── Bouton louer ── */
+button.louer {
+  padding: 12px 28px;
+  background-color: #5fb3bd;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  margin-left: 10px;
+  transition: background-color 0.15s;
+}
+
+button.louer:hover {
+  background-color: #4a9aa3;
+}
+
+/* ── Formulaire location ── */
+.formulaireLocation {
+  background-color: #141414;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  padding: 32px;
+  margin-top: 32px;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: clamp(300px, 100%, 520px);
+  box-sizing: border-box;
+}
+
+.formulaireLocation label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.formulaireLocation input {
+  width: 100%;
+  padding: 12px 14px;
+  background: #1e1e1e;
+  border: 1px solid #2e2e2e;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #ffffff;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+  color-scheme: dark;
+}
+
+.formulaireLocation input:focus {
+  border-color: #5fb3bd;
+  outline: none;
+}
+
+.formulaireLocation button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-confirmer {
+  background-color: #5fb3bd;
+  color: #fff;
+}
+
+.btn-confirmer:hover {
+  background-color: #4a9aa3;
+}
+
+.btn-annuler {
+  background-color: #1e1e1e;
+  color: #888;
+  border: 1px solid #2e2e2e;
+}
+
+.btn-annuler:hover {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1000px) {
+  .cartes-horizontal,
+  .categorie-materiels-horizontal {
+    gap: 20px;
+  }
+
+  .carte-materiel {
+    width: calc(100% / 3 - 20px + 20px / 3);
+    gap: 10px;
+  }
+
+  .carte-bas {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 650px) {
+  .carte-materiel {
+    width: calc(50% - 10px);
+  }
+
+  .carte-haut {
+    border-radius: 7px;
+  }
+
+  .carte-bas {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 500px) {
+  .cartes-horizontal,
+  .categorie-materiels-horizontal {
+    gap: 15px;
+  }
+
+  .carte-materiel {
+    width: calc(50% - 7.5px);
+  }
+
+  .carte-haut {
+    border-radius: 7px;
+  }
+
+  .titre-liste-materiels {
+    font-size: clamp(30px, 8vw, 50px);
+  }
+
+  .description-catalogue {
+    font-size: clamp(14px, 4vw, 20px);
+  }
+}

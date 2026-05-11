@@ -1,0 +1,117 @@
+<div class="page-admin">
+  <div class="conteneur">
+    <div class="entete-page">
+      <h1 class="titre-page">Tableau de bord</h1>
+    </div>
+
+    <!-- Ligne 1 -->
+    <div class="ligne-cartes">
+      <div class="carte">
+        <div class="carte-corps">
+          <div class="carte-valeur texte-bleu">{{ categories.length }}</div>
+          <div class="carte-titre">Catégories</div>
+        </div>
+      </div>
+      <div class="carte">
+        <div class="carte-corps">
+          <div class="carte-valeur texte-vert">-</div>
+          <div class="carte-titre">Matériels disponibles</div>
+        </div>
+      </div>
+      <div class="carte">
+        <div class="carte-corps">
+          <div class="carte-valeur texte-jaune">-</div>
+          <div class="carte-titre">Locations en cours</div>
+        </div>
+      </div>
+      <div class="carte">
+        <div class="carte-corps">
+          <div class="carte-valeur texte-rouge">-</div>
+          <div class="carte-titre">Demandes en attente</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ligne 2 -->
+    <div class="ligne-bas">
+      <div class="carte carte-stats">
+        <div class="carte-entete">
+          <div class="carte-interieur">
+            <div class="carte-titre">Statistiques générales</div>
+            <div class="carte-sous-titre"></div>
+          </div>
+        </div>
+        <div class="carte-tableau">
+          <div class="compteurs">
+            <div class="ligne-compteur">
+              <div class="colonne"><span class="titre">Catégories</span></div>
+              <div class="colonne valeur">
+                <strong>{{ categories.length }}</strong>
+              </div>
+            </div>
+            <div class="ligne-compteur">
+              <div class="colonne"><span class="titre">Matériels</span></div>
+              <div class="colonne valeur"><strong>-</strong></div>
+            </div>
+            <div class="ligne-compteur">
+              <div class="colonne">
+                <span class="titre">Locations en cours</span>
+              </div>
+              <div class="colonne valeur"><strong>-</strong></div>
+            </div>
+            <div class="ligne-compteur">
+              <div class="colonne"><span class="titre">Utilisateurs</span></div>
+              <div class="colonne valeur"><strong>-</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="carte">
+        <div class="carte-entete">
+          <div class="carte-interieur">
+            <div class="carte-titre">Liste des matériels</div>
+          </div>
+        </div>
+        <div class="carte-contenu">
+          @for (categorie of categories; track categorie.id) {
+            <div class="categorie-nom">{{ categorie.nom }}</div>
+            <button (click)="modifierCategorie(categorie)">Modifier</button>
+            <button (click)="supprimerCategorie(categorie)">Supprimer</button>
+            @for (modele of categorie.modeles; track modele.id) {
+              <div class="modele-ligne">
+                <span>{{ modele.nom }}</span>
+                <span>{{ modele.prix }} €</span>
+                <button (click)="ouvirModal(modele)" class="btn btn-modifier">Modifier</button>
+                <button (click)="supprimerModele(modele)" class="btn btn-supprimer">
+                  Supprimer
+                </button>
+              </div>
+            }
+          }
+        </div>
+
+        @if (modalOuvert && modeleAModifier) {
+  <div class="modal-overlay">
+    <div class="modal">
+      <div class="modal-entete">
+        <h2>Modifier {{ modeleAModifier.nom }}</h2>
+        <button class="btn-fermer" (click)="fermerModal()">✕</button>
+      </div>
+      <label>Nom</label>
+      <input type="text" [(ngModel)]="modeleAModifier.nom" placeholder="Nom" />
+      <label>Prix</label>
+      <input type="number" [(ngModel)]="modeleAModifier.prix"  placeholder="Prix" />
+      <label>Description</label>
+      <textarea [(ngModel)]="modeleAModifier.description" placeholder="Description"></textarea>
+      <div class="modal-boutons">
+        <button (click)="fermerModal()">Annuler</button>
+        <button (click)="sauvgarder()">Sauvegarder</button>
+      </div>
+    </div>
+  </div>
+}
+      </div>
+    </div>
+  </div>
+</div>

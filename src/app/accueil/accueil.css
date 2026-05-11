@@ -1,0 +1,156 @@
+/* ******************************* */
+/* TITRE PRINCIPALE                */
+/* ******************************* */
+.titreprincipale {
+  margin-top: 0;
+  padding: 100px;
+  background-color: #5fb3bd;
+}
+
+.titreprincipale h1 {
+  font-size: 70px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  margin-left: 30px;
+}
+
+.titreprincipale p {
+  font-size: 20px;
+  color: #555;
+  max-width: 600px;
+  margin-left: 30px;
+}
+
+/* Responsive pour mobile */
+@media (max-width: 768px) {
+  .titreprincipale {
+    padding: 50px 15px;
+  }
+  .titreprincipale h1 {
+    font-size: clamp(24px, 8vw, 70px);
+    margin-left: 0;
+    text-align: center;
+  }
+  .titreprincipale p {
+    font-size: clamp(14px, 4vw, 20px);
+    margin-left: 0;
+    text-align: center;
+  }
+}
+
+/* PLATEFORME - Desktop */
+.plateforme-presentation {
+  background-color: #112436;
+  color: white;
+  padding: 80px 20px;
+}
+
+.plateforme-presentation-titre h1 {
+  font-size: 36px;
+  margin-left: 30px;
+  text-decoration: none;
+}
+
+.mot-souligne {
+  text-decoration: underline;
+  text-decoration-color: #ff6b6b;
+  text-underline-offset: 10px;
+}
+
+.plateforme-presentation-titre p {
+  font-size: 19px;
+  margin-left: 30px;
+}
+
+/* Grille desktop : 3 colonnes */
+.services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+
+/* Chaque article */
+.services article {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0;
+}
+
+/* Titre de l'article */
+.services article h2 {
+  background-color: inherit;
+  color: white;
+  padding: 20px;
+  font-size: 22px;
+  text-align: center;
+}
+
+/* Description */
+.services article p {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 40px;
+  line-height: 2;
+  flex-grow: 1;
+  transition: background-color 0.2s;
+}
+
+.services article p:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+}
+
+/* Couleurs titres */
+.services article:nth-child(1) h2 {
+  background-color: #ff6b6b;
+}
+.services article:nth-child(2) h2 {
+  background-color: #4ecdc4;
+}
+.services article:nth-child(3) h2 {
+  background-color: #ffd93d;
+  color: #333;
+}
+
+/* ------------------------ */
+/* Responsive - Tablette et mobile */
+@media (max-width: 1024px) {
+  .services {
+    grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
+    gap: 15px;
+  }
+
+  .services article p {
+    padding: 30px; /* moins de padding sur tablette */
+  }
+}
+
+@media (max-width: 768px) {
+  .services {
+    grid-template-columns: 1fr; /* 1 colonne sur mobile */
+    gap: 10px;
+  }
+
+  .plateforme-presentation {
+    padding: 40px 15px; /* moins de padding */
+  }
+
+  .plateforme-presentation-titre h1 {
+    font-size: clamp(24px, 6vw, 36px); /* texte adaptatif */
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .plateforme-presentation-titre p {
+    font-size: clamp(14px, 4vw, 19px);
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .services article p {
+    padding: 20px;
+    line-height: 1.6;
+  }
+}
