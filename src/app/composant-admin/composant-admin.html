@@ -14,7 +14,7 @@
       </div>
       <div class="carte">
         <div class="carte-corps">
-          <div class="carte-valeur texte-vert">-</div>
+          <div class="carte-valeur texte-vert">{{ materiels.length }}</div>
           <div class="carte-titre">Matériels disponibles</div>
         </div>
       </div>
@@ -70,14 +70,14 @@
       <div class="carte">
         <div class="carte-entete">
           <div class="carte-interieur">
-            <div class="carte-titre">Liste des matériels</div>
+            <div class="carte-titre">Liste des catégories avec leurs matériels</div>
           </div>
         </div>
         <div class="carte-contenu">
           @for (categorie of categories; track categorie.id) {
             <div class="categorie-nom">{{ categorie.nom }}</div>
-            <button (click)="modifierCategorie(categorie)">Modifier</button>
-            <button (click)="supprimerCategorie(categorie)">Supprimer</button>
+            <!-- <button (click)="modifierCategorie(categorie)">Modifier</button> -->
+            <!-- <button (click)="supprimerCategorie(categorie)">Supprimer</button> -->
             @for (modele of categorie.modeles; track modele.id) {
               <div class="modele-ligne">
                 <span>{{ modele.nom }}</span>
