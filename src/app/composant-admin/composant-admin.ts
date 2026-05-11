@@ -12,7 +12,7 @@ import { Categorie } from '../../models/categorie.model'
 })
 export class ComposantAdmin implements OnInit {
   categories: Categorie[] = []
-
+  materiels: Materiel[] = []
   modalOuvert: boolean = false
   modeleAModifier: Materiel | null = null
 
@@ -22,6 +22,7 @@ export class ComposantAdmin implements OnInit {
   }
 
   ngOnInit(){
+    // ! pour afficher les catégories et les matériels dans la carte en bas
     this.materielService.getCategoriesAvecMateriels().subscribe({
       next : (reposneApiAdmin:any) => {
         console.log('Données reçus :' , reposneApiAdmin)
@@ -30,7 +31,16 @@ export class ComposantAdmin implements OnInit {
       },
       error : (err : any) => console.log('errur ' ,err)
     })
-  }
+
+    // ! pour afficher le nombre de matériels dans la carte en haut
+   this.materielService.getMaterielApi().subscribe({
+    next: (reponseApiMateriel: any) => {
+      this.materiels = reponseApiMateriel
+      this.cd.detectChanges()
+    },
+    error: (err: any) => console.log(err)
+  })
+}
 
   supprimerCategorie(categorie: Categorie) {
     this.materielService.supprimerCategorie(categorie);
