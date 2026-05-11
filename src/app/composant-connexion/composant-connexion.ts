@@ -14,6 +14,10 @@ export class ComposantConnexion implements OnInit, OnDestroy {
   motDePasse: string = ''
   nom: string = ''
   prenom: string = ''
+  codePostal: number = 0
+  ville: string = ''
+  rue: string = ''
+  numerodetelephone: number = 0
   switchFormulaire: boolean = false
 
   constructor(private authService: Auth , private router : Router) {}
@@ -54,7 +58,12 @@ export class ComposantConnexion implements OnInit, OnDestroy {
       email: this.email,
       password: this.motDePasse,
       nom: this.nom,
-      prenom: this.prenom
+      prenom: this.prenom,
+      ville: this.ville,
+      rue: this.rue,
+      codePostal: this.codePostal,
+      numerodetelephone: this.numerodetelephone
+
     }).subscribe({
       next: (reponseApiJwt: any) => {
         this.authService.sauvegarderTokenJwt(reponseApiJwt.accessToken)
