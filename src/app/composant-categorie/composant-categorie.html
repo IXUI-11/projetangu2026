@@ -2,7 +2,7 @@
   <!-- TODO organiser le code car il est pas organsié  -->
 
   <!-- Détail matériel -->
-  @if (materielActif) {
+ @if (materielActif) {
     <div class="detail-materiel">
       <h1>{{ materielActif.nom }}</h1>
       <p>{{ materielActif.description }}</p>
@@ -10,16 +10,17 @@
       <button class="retour" (click)="retour()">Retour</button>
       <button class="louer" (click)="louerMateriale()">Louer</button>
 
-      @if (formulaireLocation) {
-        <div class="formulaireLocation">
-          <label>Date Début</label>
-          <input type="date" name="dateDebut" placeholder="Date de début" [(ngModel)]="dateDebut" />
-          <label>Date de fin</label>
-          <input type="date" name="dateFin" placeholder="Date de fin" [(ngModel)]="dateFin" />
-          <button class="btn-confirmer" (click)="confirmationLocation()">Confirmer</button>
-          <button class="btn-annuler" (click)="formulaireLocation = false">Annuler</button>
-        </div>
-      }
+        @if (formulaireLocation) {
+          <div class="formulaireLocation">
+            <label>Date Début</label>
+            <input type="date" name="dateDebut" [(ngModel)]="dateDebut" />
+            <label>Date de fin</label>
+            <input type="date" name="dateFin" [(ngModel)]="dateFin" />
+            <button class="btn-confirmer" (click)="confirmationLocation()">Confirmer</button>
+            <button class="btn-annuler" (click)="formulaireLocation = false">Annuler</button>
+          </div>
+        }
+      
     </div>
   }
 
@@ -29,7 +30,6 @@
       <div class="titre-description">
         <h1 class="titre-liste-materiels">{{ categorieActive.nom }}</h1>
       </div>
-
       <div class="cartes-horizontal">
         @for (modele of categorieActive.modeles; track modele.id; let i = $index) {
           <div class="carte-materiel" (click)="selectionnerMateriel(modele)">
@@ -38,7 +38,6 @@
           </div>
         }
       </div>
-
       <button class="retour" (click)="retour()">Retour</button>
     </div>
   }
@@ -50,7 +49,6 @@
         <h1 class="titre-liste-materiels">{{ titre }}</h1>
         <p class="description-catalogue">{{ descriptionCatalogue }}</p>
       </div>
-
       <div class="cartes-horizontal">
         @for (categorie of categories; track categorie.id; let i = $index) {
           <div class="carte-materiel" (click)="selectionnerCategorie(categorie)">
@@ -61,4 +59,5 @@
       </div>
     </div>
   }
+
 </div>
