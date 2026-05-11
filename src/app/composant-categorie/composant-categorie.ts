@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms'
 import { MaterielService } from '../services/materiel'
 import { Materiel } from '../../models/materiel.model'
 import { Categorie } from '../../models/categorie.model'
+import { Auth } from '../services/auth'
+
 
 @Component({
   selector: 'app-composant-categorie',
@@ -21,7 +23,6 @@ export class ComposantCatalogue implements OnInit {
   formulaireLocation: boolean = false;
   dateDebut: string = '';
   dateFin: string = '';
-
   categories: Categorie[] = [];
 
   couleursFond: string[] = [
@@ -47,6 +48,7 @@ export class ComposantCatalogue implements OnInit {
 
   // l'api
 ngOnInit() {
+
   this.materielService.getCategoriesAvecMateriels().subscribe({
     next: (data) => {
       this.categories = data;
