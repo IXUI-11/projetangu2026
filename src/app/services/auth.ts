@@ -38,4 +38,11 @@ export class Auth {
   estConnecter(): boolean {
     return this.getTokenJwt() !== null
   }
+  
+  getUtilisateurConnecte(): Observable<any> {
+  const token = this.getTokenJwt()
+  return this.http.get(`${this.apiLien}/Auth/Me`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+}
 }
