@@ -2,6 +2,6 @@ import { Materiel } from './materiel.model'
 
 export class Categorie {
   id!: number
-  nom!: string
+  libelleCategorie!: string
   modeles!: Materiel[]
 }
