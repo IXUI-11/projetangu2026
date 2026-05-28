@@ -1,63 +1,81 @@
 <div class="page-catalogue">
-  <!-- TODO organiser le code car il est pas organsié  -->
 
   <!-- Détail matériel -->
- @if (materielActif) {
-    <div class="detail-materiel">
-      <h1>{{ materielActif.nom }}</h1>
-      <p>{{ materielActif.description }}</p>
-      <p>Prix : {{ materielActif.prix }} €</p>
-      <button class="retour" (click)="retour()">Retour</button>
-      <button class="louer" (click)="louerMateriale()">Louer</button>
+  @if (materielActif) {
+  <div class="detail-materiel">
+    <h1>{{ materielActif.nomMateriel }}</h1>
+    <p>{{ materielActif.description }}</p>
+    <p>Prix : {{ materielActif.prix }} €</p>
 
-        @if (formulaireLocation) {
-          <div class="formulaireLocation">
-            <label>Date Début</label>
-            <input type="date" name="dateDebut" [(ngModel)]="dateDebut" />
-            <label>Date de fin</label>
-            <input type="date" name="dateFin" [(ngModel)]="dateFin" />
-            <button class="btn-confirmer" (click)="confirmationLocation()">Confirmer</button>
-            <button class="btn-annuler" (click)="formulaireLocation = false">Annuler</button>
-          </div>
-        }
-      
-    </div>
+    <button class="retour" (click)="retour()">Retour</button>
+    @if (estConnecte() && !estAdmin()) {
+    <button class="louer" (click)="louerMateriale()">Louer</button>
+    }
+
+    @if (messageReservationSuccess) {
+      <p class="message-succes">{{ messageReservationSuccess }}</p>
+    }
+
+   @if (formulaireLocation) {
+  <div class="formulaireLocation">
+    <label>Date Début</label>
+    <input type="date" name="dateDebut" [(ngModel)]="dateDebut" />
+
+    <label>Date de fin</label>
+    <input type="date" name="dateFin" [(ngModel)]="dateFin" />
+
+    @if (dateDebut && dateFin) {
+      <div class="prix-calcule">
+        <p>Prix par jour : <strong>{{ materielActif!.prix }} €</strong></p>
+        <p>Nombre de jours : <strong>{{ calculerNbJours() }}</strong></p>
+        <p>Prix total : <strong>{{ calculerPrixTotal() }} €</strong></p>
+      </div>
+    }
+
+    <button class="btn-confirmer" (click)="confirmationLocation()">Confirmer</button>
+    <button class="btn-annuler" (click)="formulaireLocation = false">Annuler</button>
+  </div>
+}
+  </div>
   }
 
   <!-- Liste des matériels d'une catégorie -->
   @else if (categorieActive) {
-    <div class="liste-materiels">
-      <div class="titre-description">
-        <h1 class="titre-liste-materiels">{{ categorieActive.nom }}</h1>
-      </div>
-      <div class="cartes-horizontal">
-        @for (modele of categorieActive.modeles; track modele.id; let i = $index) {
-          <div class="carte-materiel" (click)="selectionnerMateriel(modele)">
-            <div class="carte-haut" [style.background]="getCouleur(i)"></div>
-            <div class="carte-bas">{{ modele.nom }}</div>
-          </div>
-        }
-      </div>
-      <button class="retour" (click)="retour()">Retour</button>
+  <div class="liste-materiels">
+    <div class="titre-description">
+      <h1 class="titre-liste-materiels">{{ categorieActive.libelleCategorie }}</h1>
     </div>
+
+    <div class="cartes-horizontal">
+      @for (modele of categorieActive.modeles; track modele.id; let i = $index) {
+      <div class="carte-materiel" (click)="selectionnerMateriel(modele)">
+        <div class="carte-haut" [style.background]="getCouleur(i)"></div>
+        <div class="carte-bas">{{ modele.nomMateriel }}</div>
+      </div>
+      }
+    </div>
+
+    <button class="retour" (click)="retour()">Retour</button>
+  </div>
   }
 
   <!-- Liste des catégories -->
   @else {
-    <div class="liste-materiels">
-      <div class="titre-description">
-        <h1 class="titre-liste-materiels">{{ titre }}</h1>
-        <p class="description-catalogue">{{ descriptionCatalogue }}</p>
-      </div>
-      <div class="cartes-horizontal">
-        @for (categorie of categories; track categorie.id; let i = $index) {
-          <div class="carte-materiel" (click)="selectionnerCategorie(categorie)">
-            <div class="carte-haut" [style.background]="getCouleur(i)"></div>
-            <div class="carte-bas">{{ categorie.nom }}</div>
-          </div>
-        }
-      </div>
+  <div class="liste-materiels">
+    <div class="titre-description">
+      <h1 class="titre-liste-materiels">{{ titre }}</h1>
+      <p class="description-catalogue">{{ descriptionCatalogue }}</p>
     </div>
+
+    <div class="cartes-horizontal">
+      @for (categorie of categories; track categorie.id; let i = $index) {
+      <div class="carte-materiel" (click)="selectionnerCategorie(categorie)">
+        <div class="carte-haut" [style.background]="getCouleur(i)"></div>
+        <div class="carte-bas">{{ categorie.libelleCategorie }}</div>
+      </div>
+      }
+    </div>
+  </div>
   }
 
 </div>
