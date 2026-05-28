@@ -8,6 +8,15 @@
     <li><a routerLink="/catalogue" (click)="fermerMenu()">Catalogue</a></li>
     <!-- <li><a routerLink="/utilisateurs" (click)="fermerMenu()">Utilisateurs</a></li> -->
     <li><a routerLink="/contact" (click)="fermerMenu()">Contact</a></li>
-    <li><a routerLink="/connexion" class="btn-connexion" (click)="fermerMenu()">Connexion</a></li>
+    <!-- <li><a routerLink="/connexion" class="btn-connexion" (click)="fermerMenu()">Connexion</a></li> -->
+
+   @if (estConnecte()) {
+  @if (!estAdmin()) {
+    <li><a routerLink="/utlisateurs" (click)="fermerMenu()">Mon profil</a></li>
+  }
+  <li><a (click)="seDeconnecter()" class="btn-connexion" style="cursor:pointer">Déconnexion</a></li>
+} @else {
+  <li><a routerLink="/connexion" class="btn-connexion" (click)="fermerMenu()">Connexion</a></li>
+}
   </ul>
 </nav>
