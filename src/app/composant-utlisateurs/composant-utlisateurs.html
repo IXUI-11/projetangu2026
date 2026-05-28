@@ -1,0 +1,79 @@
+<div class="page-profil">
+  <div class="conteneur">
+
+    <div class="profil-header">
+      <div class="avatar"></div>
+      <div class="profil-info">
+        <h1>{{ utilisateur?.nom }} {{ utilisateur?.prenom }}</h1>
+        <p>{{ utilisateur?.email }}</p>
+        <span class="badge">{{ utilisateur?.roles[0] }}</span>
+      </div>
+    </div>
+
+    <div class="profil-section">
+      <h2>Mes informations</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="label">Email : </span>
+          <span class="valeur">{{ utilisateur?.email }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Nom : </span>
+          <span class="valeur">{{ utilisateur?.nom }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Prénom : </span>
+          <span class="valeur">{{ utilisateur?.prenom }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Rôle : </span>
+          <span class="valeur">{{ utilisateur?.roles[0] }}</span>
+        </div>
+        <!-- <div class="info-item">
+          <span class="label">Ville : </span>
+          <span class="valeur">{{ utilisateur?.ville }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Rue : </span>
+          <span class="valeur">{{ utilisateur?.rue }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Code postal : </span>
+          <span class="valeur">{{ utilisateur?.codePostal }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Téléphone : </span>
+          <span class="valeur">{{ utilisateur?.numeroDeTelephone }}</span>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="profil-section">
+      <h2>Mes locations en cours</h2>
+
+      @if (reservations.length === 0) {
+      <div class="locations-vide">
+        <p>Aucune location en cours</p>
+      </div>
+      } @else {
+      @for (reservation of reservations; track reservation.id) {
+      <div class="info-item" style="margin-bottom: 1rem; border-bottom: 1px solid #3d3d3d; padding-bottom: 1rem;">
+        <span class="label">Matériel ID : {{ reservation.idMateriel }}</span>
+        <span class="valeur">Du {{ reservation.dateDebut }} au {{ reservation.dateFin }}</span>
+        <span class="valeur">Prix total : {{ reservation.prixTotal }} €</span>
+        <span class="valeur">
+
+          Statut :
+          @if (reservation.idStatus === 1) { En attente }
+          @else if (reservation.idStatus === 2) { Validée }
+          @else if (reservation.idStatus === 3) { Refusée }
+          @else { Terminée }
+        </span>
+      </div>
+      }
+      }
+
+    </div>
+
+  </div>
+</div>
