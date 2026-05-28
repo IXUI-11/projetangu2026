@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core'
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { MaterielService } from '../services/materiel'
 import { Materiel } from '../../models/materiel.model'
@@ -24,7 +24,10 @@ export class ComposantCatalogue implements OnInit {
   dateDebut: string = '';
   dateFin: string = '';
   categories: Categorie[] = [];
+  messageReservationSuccess: string = '';
 
+
+  // Couleurs de fond pour les catégories
   couleursFond: string[] = [
     'linear-gradient(135deg, #1a2a4a 0%, #0d1b2e 100%)',
     'linear-gradient(135deg, #2a1a3a 0%, #1a0d2e 100%)',
@@ -43,22 +46,22 @@ export class ComposantCatalogue implements OnInit {
   // ! remplacer le constructor par ngOnInit quand les données viendront depuis l'API
 
   // materielService est une variable de type MaterielService. Angular crée automatiquement une instance de la classe MaterielService et l'injecte dans cette variable.
-  constructor(private materielService: MaterielService , /* 2 varaible*/ private cd: ChangeDetectorRef) {
-  }
+  constructor(private materielService: MaterielService, /* 2 varaible*/ private cd: ChangeDetectorRef, private authService: Auth) { }
+
 
   // l'api
-ngOnInit() {
+  ngOnInit() {
 
-  this.materielService.getCategoriesAvecMateriels().subscribe({
-    next: (data) => {
-      this.categories = data;
-      this.cd.detectChanges(); // ← force la mise à jour du HTML
+    this.materielService.getCategoriesAvecMateriels().subscribe({
+      next: (data) => {
+        this.categories = data;
+        this.cd.detectChanges(); // ← force la mise à jour du HTML
 
-      console.log(this.categories);
-    },
-    error: (err) => console.error(err)
-  });
-}
+        console.log(this.categories);
+      },
+      error: (err) => console.error(err)
+    });
+  }
 
 
 
@@ -82,7 +85,69 @@ ngOnInit() {
     this.formulaireLocation = true
   }
 
+
+  // 
   confirmationLocation(): void {
-    console.log(this.dateDebut + 'au ' + this.dateFin)
+      //  1 Vérifie si connecté
+    if (!this.authService.estConnecter()) {
+      this.messageReservationSuccess = 'Vous devez être connecté pour louer un matériel'
+      this.cd.detectChanges();
+    }
+    else{
+    // 2. Récupère les infos de l'utilisateur connecté depuis L'api Auth/Me
+    this.authService.getUtilisateurConnecte().subscribe({
+      next: (user: any) => {
+        // user contient : email, nom, idUtilisateurs...
+
+       // 3. Prépare les données de la réservation
+        const reservation = {
+          DateDebut: this.dateDebut,
+          DateFin: this.dateFin,
+          PrixTotal: this.calculerPrixTotal(), 
+          IdUtilisateurs: user.idUtilisateurs,
+          IdMateriel: this.materielActif!.id
+        }
+
+        //  4 : Envoie la réservation à l'API
+        this.materielService.creerReservation(reservation).subscribe({
+          next: (data: any) => {
+            this.formulaireLocation = false
+            this.messageReservationSuccess = `✅ Réservation confirmée ! Prix total : ${this.calculerPrixTotal()} €`
+            this.cd.detectChanges();
+
+          },
+          error: (err: any) => console.log(err)
+        })
+      },
+      error: (err: any) => console.log(err)
+    })
+    }
+  }
+
+
+// Calcule le nombre de jours du  jour X au jour Y 
+  calculerNbJours(): number {
+    if (!this.dateDebut || !this.dateFin) return 0
+    const debut = new Date(this.dateDebut)
+    const fin = new Date(this.dateFin)
+    return (fin.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24)
+
+  }
+
+
+  // Calcule le prix total en fonction du prix de l'article et le X et Y jours
+  calculerPrixTotal(): number {
+    return this.calculerNbJours() * this.materielActif!.prix
+  }
+
+  estAdmin(): boolean {
+  return this.authService.estUnAdmin()
+}
+
+  estConnecte(): boolean {
+    return this.authService.estConnecter()
   }
 }
+
+
+
