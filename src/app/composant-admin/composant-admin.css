@@ -189,6 +189,21 @@
   margin: 0;
 }
 
+.modal select {
+  background-color: #131313;
+  border: 1px solid #3d3d3d;
+  border-radius: 4px;
+  color: #e6e6e6;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.modal select:focus {
+  border-color: #467fcf;
+  outline: none;
+}
+
 .btn-fermer {
   background: none;
   border: none;
@@ -282,4 +297,19 @@
 }
 .texte-rouge {
   color: #cd201f !important;
+}
+
+.entete-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.message-succes{
+  background-color: #3a6c08;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
 }
