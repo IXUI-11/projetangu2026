@@ -24,7 +24,12 @@ export class Auth {
   } 
 
   estUnAdmin(): boolean {
-    return this.role === 'admin'
+    return localStorage.getItem('role') === 'Admin'
+  }
+
+  // pour sauvegarder le rôle de l'utilisateur dans le localStorage
+  sauvegarderRole(role: string) {
+    localStorage.setItem('role', role)
   }
 
   sauvegarderTokenJwt(token: string) {
@@ -41,6 +46,7 @@ export class Auth {
   
   getUtilisateurConnecte(): Observable<any> {
   const token = this.getTokenJwt()
+  console.log('token : ' , token )
   return this.http.get(`${this.apiLien}/Auth/Me`, {
     headers: { Authorization: `Bearer ${token}` }
   })
