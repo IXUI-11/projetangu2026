@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
-import { RouterLink } from '@angular/router'
+import { Router, RouterLink } from '@angular/router'
+import { Auth } from '../services/auth'
 
 @Component({
   selector: 'app-composant-navbar',
@@ -10,6 +11,9 @@ import { RouterLink } from '@angular/router'
 export class ComposantNavbar {
   menuOuvert = false
 
+
+  constructor(private authService: Auth , private router : Router) {}
+
   toggleMenu() {
     this.menuOuvert = !this.menuOuvert
   }
@@ -17,4 +21,21 @@ export class ComposantNavbar {
   fermerMenu() {
     this.menuOuvert = false
   }
+
+  estConnecte(): boolean {
+    return this.authService.estConnecter()
+  }
+
+  seDeconnecter() {
+    localStorage.removeItem('tokenJwt')
+    this.router.navigate(['/connexion'])
+    this.fermerMenu()
+  }
+
+  estAdmin(): boolean {
+  return this.authService.estUnAdmin()
+
+}
+
+
 }
