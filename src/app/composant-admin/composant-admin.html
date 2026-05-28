@@ -2,7 +2,13 @@
   <div class="conteneur">
     <div class="entete-page">
       <h1 class="titre-page">Tableau de bord</h1>
+      <button class="btn btn-modifier" (click)="ouvirModalAjouter()">Ajouter un matériel</button>
+      <button class="btn btn-modifier" (click)="ouvrirModalCategorie()">+ Ajouter une catégorie</button>
     </div>
+
+    @if (messageStatut) {
+    <p class="message-succes">{{ messageStatut }}</p>
+    }
 
     <!-- Ligne 1 -->
     <div class="ligne-cartes">
@@ -20,7 +26,7 @@
       </div>
       <div class="carte">
         <div class="carte-corps">
-          <div class="carte-valeur texte-jaune">-</div>
+          <div class="carte-valeur texte-jaune">{{ reservations.length }}</div>
           <div class="carte-titre">Locations en cours</div>
         </div>
       </div>
@@ -45,19 +51,15 @@
           <div class="compteurs">
             <div class="ligne-compteur">
               <div class="colonne"><span class="titre">Catégories</span></div>
-              <div class="colonne valeur">
-                <strong>{{ categories.length }}</strong>
-              </div>
+              <div class="colonne valeur"><strong>{{ categories.length }}</strong></div>
             </div>
             <div class="ligne-compteur">
               <div class="colonne"><span class="titre">Matériels</span></div>
-              <div class="colonne valeur"><strong>-</strong></div>
+              <div class="colonne valeur"><strong>{{ materiels.length }}</strong></div>
             </div>
             <div class="ligne-compteur">
-              <div class="colonne">
-                <span class="titre">Locations en cours</span>
-              </div>
-              <div class="colonne valeur"><strong>-</strong></div>
+              <div class="colonne"><span class="titre">Locations en cours</span></div>
+              <div class="colonne valeur"><strong>{{ reservations.length }}</strong></div>
             </div>
             <div class="ligne-compteur">
               <div class="colonne"><span class="titre">Utilisateurs</span></div>
@@ -75,43 +77,109 @@
         </div>
         <div class="carte-contenu">
           @for (categorie of categories; track categorie.id) {
-            <div class="categorie-nom">{{ categorie.nom }}</div>
-            <!-- <button (click)="modifierCategorie(categorie)">Modifier</button> -->
-            <!-- <button (click)="supprimerCategorie(categorie)">Supprimer</button> -->
-            @for (modele of categorie.modeles; track modele.id) {
-              <div class="modele-ligne">
-                <span>{{ modele.nom }}</span>
-                <span>{{ modele.prix }} €</span>
-                <button (click)="ouvirModal(modele)" class="btn btn-modifier">Modifier</button>
-                <button (click)="supprimerModele(modele)" class="btn btn-supprimer">
-                  Supprimer
-                </button>
-              </div>
-            }
+          <div class="categorie-nom">{{ categorie.libelleCategorie }}</div>
+          @for (modele of categorie.modeles; track modele.id) {
+          <div class="modele-ligne">
+            <span>{{ modele.nomMateriel }}</span>
+            <span>{{ modele.prix }} €</span>
+            <button (click)="ouvirModal(modele)" class="btn btn-modifier">Modifier</button>
+            <button (click)="supprimerModele(modele)" class="btn btn-supprimer">Supprimer</button>
+          </div>
+          }
           }
         </div>
 
         @if (modalOuvert && modeleAModifier) {
-  <div class="modal-overlay">
-    <div class="modal">
-      <div class="modal-entete">
-        <h2>Modifier {{ modeleAModifier.nom }}</h2>
-        <button class="btn-fermer" (click)="fermerModal()">✕</button>
-      </div>
-      <label>Nom</label>
-      <input type="text" [(ngModel)]="modeleAModifier.nom" placeholder="Nom" />
-      <label>Prix</label>
-      <input type="number" [(ngModel)]="modeleAModifier.prix"  placeholder="Prix" />
-      <label>Description</label>
-      <textarea [(ngModel)]="modeleAModifier.description" placeholder="Description"></textarea>
-      <div class="modal-boutons">
-        <button (click)="fermerModal()">Annuler</button>
-        <button (click)="sauvgarder()">Sauvegarder</button>
+        <div class="modal-overlay">
+          <div class="modal">
+            <div class="modal-entete">
+              <h2>Modifier {{ modeleAModifier.nomMateriel }}</h2>
+              <button class="btn-fermer" (click)="fermerModal()">✕</button>
+            </div>
+            <label>Nom</label>
+            <input type="text" [(ngModel)]="modeleAModifier.nomMateriel" placeholder="Nom" />
+            <label>Prix</label>
+            <input type="number" [(ngModel)]="modeleAModifier.prix" placeholder="Prix" />
+            <label>Description</label>
+            <textarea [(ngModel)]="modeleAModifier.description" placeholder="Description"></textarea>
+            <div class="modal-boutons">
+              <button (click)="fermerModal()">Annuler</button>
+              <button (click)="sauvgarderModifications()">Sauvegarder</button>
+            </div>
+          </div>
+        </div>
+        }
       </div>
     </div>
-  </div>
-}
+
+    <!-- Ligne 3 - Réservations -->
+    <div class="ligne-reservations">
+      <div class="carte">
+        <div class="carte-entete">
+          <div class="carte-interieur">
+            <div class="carte-titre">Demandes de réservation</div>
+          </div>
+        </div>
+        <div class="carte-contenu">
+          @for (reservation of reservations; track reservation.id) {
+          <div class="modele-ligne">
+            <span>Matériel : {{ reservation.idMateriel }}</span>
+            <span>Utilisateur : {{ reservation.idUtilisateurs }}</span>
+            <span>Prix : {{ reservation.prixTotal }} €</span>
+            <span>Statut : {{ reservation.idStatus }}</span>
+            <button class="btn btn-modifier" (click)="accepterReservation(reservation)">✅ Accepter</button>
+            <button class="btn btn-supprimer" (click)="refuserReservation(reservation)">❌ Refuser</button>
+          </div>
+          }
+        </div>
       </div>
     </div>
+
+    <!-- Modal ajouter matériel -->
+    @if (modalAjouterOuvert) {
+    <div class="modal-overlay">
+      <div class="modal">
+        <div class="modal-entete">
+          <h2>Ajouter un matériel</h2>
+          <button class="btn-fermer" (click)="fermerModalAjouter()">✕</button>
+        </div>
+        <label>Nom</label>
+        <input type="text" [(ngModel)]="nouveauMateriel.nomMateriel" placeholder="Nom" />
+        <label>Prix</label>
+        <input type="number" [(ngModel)]="nouveauMateriel.prix" placeholder="Prix" />
+        <label>Description</label>
+        <textarea [(ngModel)]="nouveauMateriel.description" placeholder="Description"></textarea>
+        <label>Catégorie</label>
+        <select [(ngModel)]="nouveauMateriel.idCategorie">
+          @for (categorie of categories; track categorie.id) {
+          <option [value]="categorie.id">{{ categorie.libelleCategorie }}</option>
+          }
+        </select>
+        <div class="modal-boutons">
+          <button (click)="fermerModalAjouter()">Annuler</button>
+          <button (click)="ajouterModele()">Ajouter</button>
+        </div>
+      </div>
+    </div>
+    }
+
+    <!-- Modal ajouter catégorie -->
+    @if (modalCategorieOuvert) {
+    <div class="modal-overlay">
+      <div class="modal">
+        <div class="modal-entete">
+          <h2>Ajouter une catégorie</h2>
+          <button class="btn-fermer" (click)="fermerModalCategorie()">✕</button>
+        </div>
+        <label>Nom de la catégorie</label>
+        <input type="text" [(ngModel)]="nouvelleCategorie.libelleCategorie" placeholder="Nom" />
+        <div class="modal-boutons">
+          <button (click)="fermerModalCategorie()">Annuler</button>
+          <button (click)="ajouterCategorie()">Ajouter</button>
+        </div>
+      </div>
+    </div>
+    }
+
   </div>
 </div>
