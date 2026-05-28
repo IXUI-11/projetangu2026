@@ -238,6 +238,15 @@ button.louer:hover {
   color: #fff;
 }
 
+.message-succes {
+  color: #4caf50;
+  font-weight: 600;
+  margin-top: 2rem;
+  padding: 0.75rem 1rem;
+  background-color: rgba(11, 255, 19, 0.1);
+  border-radius: 4px;
+}
+
 /* ── Responsive ── */
 @media (max-width: 1000px) {
   .cartes-horizontal,
