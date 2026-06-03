@@ -1,35 +1,42 @@
 <div class="page-admin">
   <div class="conteneur">
+
+    <!-- En-tête de la page avec le titre et les boutons d'ajout -->
     <div class="entete-page">
       <h1 class="titre-page">Tableau de bord</h1>
       <button class="btn btn-modifier" (click)="ouvirModalAjouter()">Ajouter un matériel</button>
       <button class="btn btn-modifier" (click)="ouvrirModalCategorie()">+ Ajouter une catégorie</button>
     </div>
 
+    <!-- Message de succès/erreur affiché après une action -->
     @if (messageStatut) {
     <p class="message-succes">{{ messageStatut }}</p>
     }
 
-    <!-- Ligne 1 -->
+    <!-- Ligne 1 : cartes de statistiques rapides -->
     <div class="ligne-cartes">
+      <!-- Carte : nombre total de catégories -->
       <div class="carte">
         <div class="carte-corps">
           <div class="carte-valeur texte-bleu">{{ categories.length }}</div>
           <div class="carte-titre">Catégories</div>
         </div>
       </div>
+      <!-- Carte : nombre total de matériels -->
       <div class="carte">
         <div class="carte-corps">
           <div class="carte-valeur texte-vert">{{ materiels.length }}</div>
           <div class="carte-titre">Matériels disponibles</div>
         </div>
       </div>
+      <!-- Carte : nombre de réservations en cours -->
       <div class="carte">
         <div class="carte-corps">
           <div class="carte-valeur texte-jaune">{{ reservations.length }}</div>
           <div class="carte-titre">Locations en cours</div>
         </div>
       </div>
+      <!-- Carte : demandes en attente (non encore implémenté) -->
       <div class="carte">
         <div class="carte-corps">
           <div class="carte-valeur texte-rouge">-</div>
@@ -38,8 +45,10 @@
       </div>
     </div>
 
-    <!-- Ligne 2 -->
+    <!-- Ligne 2 : statistiques détaillées + liste des catégories/matériels -->
     <div class="ligne-bas">
+
+      <!-- Bloc statistiques générales-->
       <div class="carte carte-stats">
         <div class="carte-entete">
           <div class="carte-interieur">
@@ -61,6 +70,7 @@
               <div class="colonne"><span class="titre">Locations en cours</span></div>
               <div class="colonne valeur"><strong>{{ reservations.length }}</strong></div>
             </div>
+            <!-- Utilisateurs non encore récupérés depuis l'API -->
             <div class="ligne-compteur">
               <div class="colonne"><span class="titre">Utilisateurs</span></div>
               <div class="colonne valeur"><strong>-</strong></div>
@@ -69,6 +79,7 @@
         </div>
       </div>
 
+      <!-- Bloc liste des catégories avec leurs matériels associés -->
       <div class="carte">
         <div class="carte-entete">
           <div class="carte-interieur">
@@ -76,19 +87,24 @@
           </div>
         </div>
         <div class="carte-contenu">
+          <!-- Boucle sur chaque catégorie -->
           @for (categorie of categories; track categorie.id) {
           <div class="categorie-nom">{{ categorie.libelleCategorie }}</div>
+          <!-- Boucle sur chaque matériel de la catégorie -->
           @for (modele of categorie.modeles; track modele.id) {
           <div class="modele-ligne">
             <span>{{ modele.nomMateriel }}</span>
             <span>{{ modele.prix }} €</span>
+            <!-- Bouton ouvre la modale de modification pour ce matériel -->
             <button (click)="ouvirModal(modele)" class="btn btn-modifier">Modifier</button>
+            <!-- Bouton supprime directement le matériel -->
             <button (click)="supprimerModele(modele)" class="btn btn-supprimer">Supprimer</button>
           </div>
           }
           }
         </div>
 
+        <!-- Modale de modification d'un matériel existant -->
         @if (modalOuvert && modeleAModifier) {
         <div class="modal-overlay">
           <div class="modal">
@@ -96,6 +112,7 @@
               <h2>Modifier {{ modeleAModifier.nomMateriel }}</h2>
               <button class="btn-fermer" (click)="fermerModal()">✕</button>
             </div>
+            <!-- Champs liés en two-way binding à modeleAModifier -->
             <label>Nom</label>
             <input type="text" [(ngModel)]="modeleAModifier.nomMateriel" placeholder="Nom" />
             <label>Prix</label>
@@ -112,7 +129,7 @@
       </div>
     </div>
 
-    <!-- Ligne 3 - Réservations -->
+    <!-- Ligne 3 : liste des réservations avec actions accepter/refuser -->
     <div class="ligne-reservations">
       <div class="carte">
         <div class="carte-entete">
@@ -121,13 +138,16 @@
           </div>
         </div>
         <div class="carte-contenu">
+          <!-- Boucle sur chaque réservation -->
           @for (reservation of reservations; track reservation.id) {
           <div class="modele-ligne">
             <span>Matériel : {{ reservation.idMateriel }}</span>
             <span>Utilisateur : {{ reservation.idUtilisateurs }}</span>
             <span>Prix : {{ reservation.prixTotal }} €</span>
             <span>Statut : {{ reservation.idStatus }}</span>
+            <!-- Bouton pour accepter la réservation -->
             <button class="btn btn-modifier" (click)="accepterReservation(reservation)">✅ Accepter</button>
+            <!-- Bouton pour refuser la réservation -->
             <button class="btn btn-supprimer" (click)="refuserReservation(reservation)">❌ Refuser</button>
           </div>
           }
@@ -135,7 +155,7 @@
       </div>
     </div>
 
-    <!-- Modal ajouter matériel -->
+    <!-- Modale d'ajout d'un nouveau matériel -->
     @if (modalAjouterOuvert) {
     <div class="modal-overlay">
       <div class="modal">
@@ -143,12 +163,14 @@
           <h2>Ajouter un matériel</h2>
           <button class="btn-fermer" (click)="fermerModalAjouter()">✕</button>
         </div>
+        <!-- Champs liés en two-way binding à nouveauMateriel -->
         <label>Nom</label>
         <input type="text" [(ngModel)]="nouveauMateriel.nomMateriel" placeholder="Nom" />
         <label>Prix</label>
         <input type="number" [(ngModel)]="nouveauMateriel.prix" placeholder="Prix" />
         <label>Description</label>
         <textarea [(ngModel)]="nouveauMateriel.description" placeholder="Description"></textarea>
+        <!-- Sélection de la catégorie parmi celles existantes -->
         <label>Catégorie</label>
         <select [(ngModel)]="nouveauMateriel.idCategorie">
           @for (categorie of categories; track categorie.id) {
@@ -163,7 +185,7 @@
     </div>
     }
 
-    <!-- Modal ajouter catégorie -->
+    <!-- Modale d'ajout d'une nouvelle catégorie -->
     @if (modalCategorieOuvert) {
     <div class="modal-overlay">
       <div class="modal">
@@ -171,6 +193,7 @@
           <h2>Ajouter une catégorie</h2>
           <button class="btn-fermer" (click)="fermerModalCategorie()">✕</button>
         </div>
+        <!-- Champ lié en two-way binding à nouvelleCategorie -->
         <label>Nom de la catégorie</label>
         <input type="text" [(ngModel)]="nouvelleCategorie.libelleCategorie" placeholder="Nom" />
         <div class="modal-boutons">

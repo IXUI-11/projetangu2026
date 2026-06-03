@@ -1,15 +1,17 @@
 <div class="page-profil">
   <div class="conteneur">
 
+    <!-- En-tête du profil avec avatar et infos principales -->
     <div class="profil-header">
       <div class="avatar"></div>
       <div class="profil-info">
         <h1>{{ utilisateur?.nom }} {{ utilisateur?.prenom }}</h1>
         <p>{{ utilisateur?.email }}</p>
-        <span class="badge">{{ utilisateur?.roles[0] }}</span>
+        <span class="badge">{{ utilisateur?.roles?.[0] }}</span>
       </div>
     </div>
 
+    <!-- Section informations personnelles -->
     <div class="profil-section">
       <h2>Mes informations</h2>
       <div class="info-grid">
@@ -27,8 +29,13 @@
         </div>
         <div class="info-item">
           <span class="label">Rôle : </span>
-          <span class="valeur">{{ utilisateur?.roles[0] }}</span>
+          <!-- // utilisateur?.roles?.[0]
+          Le ?. avant roles vérifie que utilisateur n'est pas null
+          Le ?. avant [0] vérifie que roles n'est pas undefined avant d'accéder au premier élément
+          Sans ces ?, Angular lancerait une erreur si utilisateur ou roles est null/undefined -->
+          <span class="valeur">{{ utilisateur?.roles?.[0] }}</span> 
         </div>
+        <!-- Informations de contact commentées pour l'instant -->
         <!-- <div class="info-item">
           <span class="label">Ville : </span>
           <span class="valeur">{{ utilisateur?.ville }}</span>
@@ -48,29 +55,31 @@
       </div>
     </div>
 
+    <!-- Section réservations de l'utilisateur connecté -->
     <div class="profil-section">
       <h2>Mes locations en cours</h2>
 
+      <!-- Message si aucune réservation -->
       @if (reservations.length === 0) {
-      <div class="locations-vide">
-        <p>Aucune location en cours</p>
-      </div>
+        <div class="locations-vide">
+          <p>Aucune location en cours</p>
+        </div>
       } @else {
-      @for (reservation of reservations; track reservation.id) {
-      <div class="info-item" style="margin-bottom: 1rem; border-bottom: 1px solid #3d3d3d; padding-bottom: 1rem;">
-        <span class="label">Matériel ID : {{ reservation.idMateriel }}</span>
-        <span class="valeur">Du {{ reservation.dateDebut }} au {{ reservation.dateFin }}</span>
-        <span class="valeur">Prix total : {{ reservation.prixTotal }} €</span>
-        <span class="valeur">
-
-          Statut :
-          @if (reservation.idStatus === 1) { En attente }
-          @else if (reservation.idStatus === 2) { Validée }
-          @else if (reservation.idStatus === 3) { Refusée }
-          @else { Terminée }
-        </span>
-      </div>
-      }
+        <!-- Liste des réservations avec statut -->
+        @for (reservation of reservations; track reservation.id) {
+          <div class="info-item" style="margin-bottom: 1rem; border-bottom: 1px solid #3d3d3d; padding-bottom: 1rem;">
+            <span class="label">Matériel ID : {{ reservation.idMateriel }}</span>
+            <span class="valeur">Du {{ reservation.dateDebut }} au {{ reservation.dateFin }}</span>
+            <span class="valeur">Prix total : {{ reservation.prixTotal }} €</span>
+            <span class="valeur">
+              Statut :
+              @if (reservation.idStatus === 1) { ⏳ En attente }
+              @else if (reservation.idStatus === 2) { ✅ Validée }
+              @else if (reservation.idStatus === 3) { ❌ Refusée }
+              @else { 🏁 Terminée }
+            </span>
+          </div>
+        }
       }
 
     </div>

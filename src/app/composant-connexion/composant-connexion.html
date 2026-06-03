@@ -1,37 +1,46 @@
-<div class="login-page">
+<!-- Page principale de connexion / inscription -->
 <div class="login-page">
   <div class="container">
 
-  <div class="left">
-    <h1>{{ switchFormulaire ? 'Inscription' : 'Connexion' }}</h1>
+    <div class="left">
+      <!-- Titre dynamique selon le formulaire affiché -->
+      <h1>{{ switchFormulaire ? 'Inscription' : 'Connexion' }}</h1>
 
-    @if (switchFormulaire) {
-      <form>
-        <input type="text" name="nom" [(ngModel)]="nom" placeholder="Nom" />
-        <input type="text" name="prenom" [(ngModel)]="prenom" placeholder="Prénom" />
-        <input type="password" name="motDePasse" [(ngModel)]="motDePasse" placeholder="Mot de passe" />
-        <input type ="text" name="ville" [(ngModel)]="ville" placeholder="Ville" />
-        <input type ="text" name="rue" [(ngModel)]="rue" placeholder="Rue" />
-        <input type="text" name="codePostal" [(ngModel)]="codePostal" placeholder="Code postal" />
-        <input type="email" name="email" [(ngModel)]="email" placeholder="Adresse mail" />
-        <input type="text" name="numerodetelephone" [(ngModel)]="numerodetelephone" placeholder="Numéro de téléphone" />
-        <button type="button" (click)="sInscrire()">S'inscrire</button>
-      </form>
-    } @else {
-      <form>
-        <input type="email" name="email" [(ngModel)]="email" placeholder="Adresse mail" />
-        <input type="password" name="motDePasse" [(ngModel)]="motDePasse" placeholder="Mot de passe" />
-        <button type="button" (click)="seConnecter()">Se connecter</button>
-      </form>
-    }
+      <!-- Formulaire d'inscription (affiché si switchFormulaire = true) -->
+      @if (switchFormulaire) {
+        <form>
+          <!-- Champs   -->
+          <input type="text"     name="nom"               [(ngModel)]="nom"               placeholder="Nom" />
+          <input type="text"     name="prenom"            [(ngModel)]="prenom"            placeholder="Prénom" />
+          <input type="password" name="motDePasse"        [(ngModel)]="motDePasse"        placeholder="Mot de passe" />
+          <input type="text"     name="ville"             [(ngModel)]="ville"             placeholder="Ville" />
+          <input type="text"     name="rue"               [(ngModel)]="rue"               placeholder="Rue" />
+          <input type="text"     name="codePostal"        [(ngModel)]="codePostal"        placeholder="Code postal" />
+          <input type="email"    name="email"             [(ngModel)]="email"             placeholder="Adresse mail" />
+          <input type="text"     name="numerodetelephone" [(ngModel)]="numerodetelephone" placeholder="Numéro de téléphone" />
+          <!-- Bouton qui déclenche l'inscription -->
+          <button type="button" (click)="sInscrire()">S'inscrire</button>
+        </form>
 
-    <button class="switchconnexion" (click)="changerFormulaire()">
-      {{ switchFormulaire ? 'Déjà un compte ? Connexion' : 'Pas de compte ? Inscription' }}
-    </button>
+      <!-- Formulaire de connexion (affiché si switchFormulaire = false) -->
+      } @else {
+        <form>
+          <!-- Champs  -->
+          <input type="email"    name="email"      [(ngModel)]="email"      placeholder="Adresse mail" />
+          <input type="password" name="motDePasse" [(ngModel)]="motDePasse" placeholder="Mot de passe" />
+          <!-- Bouton qui déclenche la connexion -->
+          <button type="button" (click)="seConnecter()">Se connecter</button>
+        </form>
+      }
+
+      <!-- Bouton pour basculer entre les deux formulaires, texte dynamique selon l'état -->
+      <button class="switchconnexion" (click)="changerFormulaire()">
+        {{ switchFormulaire ? 'Déjà un compte ? Connexion' : 'Pas de compte ? Inscription' }}
+      </button>
+    </div>
+
+    <!-- Partie droite réservée pour une image ou illustration (vide pour l'instant) -->
+    <div class="right"></div>
+
   </div>
-
-  <div class="right"></div>
-
-  </div>
-</div>
 </div>

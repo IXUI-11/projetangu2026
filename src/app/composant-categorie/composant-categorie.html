@@ -1,45 +1,67 @@
 <div class="page-catalogue">
 
-  <!-- Détail matériel -->
+  <!-- Vue 1 : Détail d'un matériel sélectionné -->
   @if (materielActif) {
   <div class="detail-materiel">
     <h1>{{ materielActif.nomMateriel }}</h1>
     <p>{{ materielActif.description }}</p>
     <p>Prix : {{ materielActif.prix }} €</p>
 
+    <!-- Bouton retour vers la liste des matériels de la catégorie -->
     <button class="retour" (click)="retour()">Retour</button>
+
+    <!-- Bouton "Louer" visible uniquement pour les utilisateurs connectés non-admin -->
     @if (estConnecte() && !estAdmin()) {
     <button class="louer" (click)="louerMateriale()">Louer</button>
     }
 
+    <!-- Message de confirmation après une réservation réussie -->
     @if (messageReservationSuccess) {
-      <p class="message-succes">{{ messageReservationSuccess }}</p>
+    <p class="message-succes">{{ messageReservationSuccess }}</p>
     }
 
-   @if (formulaireLocation) {
-  <div class="formulaireLocation">
-    <label>Date Début</label>
-    <input type="date" name="dateDebut" [(ngModel)]="dateDebut" />
+    <!-- Formulaire de location : affiché après clic sur "Louer" -->
+    @if (formulaireLocation) {
+    <div class="formulaireLocation">
+      <!-- Saisie des dates, chaque changement déclenche la vérification de disponibilité -->
+      <label>Date Début</label>
+      <input type="date" name="dateDebut" [(ngModel)]="dateDebut" (change)="verifierDisponibilite()" />
 
-    <label>Date de fin</label>
-    <input type="date" name="dateFin" [(ngModel)]="dateFin" />
+      <label>Date de fin</label>
+      <input type="date" name="dateFin" [(ngModel)]="dateFin" (change)="verifierDisponibilite()" />
 
-    @if (dateDebut && dateFin) {
-      <div class="prix-calcule">
-        <p>Prix par jour : <strong>{{ materielActif!.prix }} €</strong></p>
-        <p>Nombre de jours : <strong>{{ calculerNbJours() }}</strong></p>
-        <p>Prix total : <strong>{{ calculerPrixTotal() }} €</strong></p>
-      </div>
+      <!-- Bloc affiché uniquement si les deux dates sont renseignées -->
+      @if (dateDebut && dateFin) {
+
+        <!-- Cas 1 : date de fin avant ou égale à la date de début -->
+        @if (calculerNbJours() <= 0) {
+          <p style="color: red;">❌ La date de fin doit être après la date de début</p>
+
+        <!-- Cas 2 : matériel déjà réservé sur cette période -->
+        } @else if (!disponible) {
+          <p style="color: red;">❌ Ce matériel est déjà réservé sur cette période</p>
+
+        <!-- Cas 3 : période valide et matériel disponible → affichage du récapitulatif de prix -->
+        } @else {
+          <div class="prix-calcule">
+            <p>Prix par jour : <strong>{{ materielActif!.prix }} €</strong></p>
+            <p>Nombre de jours : <strong>{{ calculerNbJours() }}</strong></p>
+            <p>Prix total : <strong>{{ calculerPrixTotal() }} €</strong></p>
+            <p style="color: green;">✅ Disponible</p>
+          </div>
+        }
+      }
+
+      <!-- Bouton désactivé si le matériel n'est pas disponible -->
+      <button class="btn-confirmer" (click)="confirmationLocation()" [disabled]="!disponible">Confirmer</button>
+      <!-- Bouton pour fermer le formulaire sans confirmer -->
+      <button class="btn-annuler" (click)="formulaireLocation = false">Annuler</button>
+    </div>
     }
-
-    <button class="btn-confirmer" (click)="confirmationLocation()">Confirmer</button>
-    <button class="btn-annuler" (click)="formulaireLocation = false">Annuler</button>
-  </div>
-}
   </div>
   }
 
-  <!-- Liste des matériels d'une catégorie -->
+  <!-- Vue 2 : Liste des matériels d'une catégorie sélectionnée -->
   @else if (categorieActive) {
   <div class="liste-materiels">
     <div class="titre-description">
@@ -47,19 +69,22 @@
     </div>
 
     <div class="cartes-horizontal">
+      <!-- Boucle sur les matériels de la catégorie, clic → affiche le détail -->
       @for (modele of categorieActive.modeles; track modele.id; let i = $index) {
       <div class="carte-materiel" (click)="selectionnerMateriel(modele)">
+        <!-- Couleur de la carte générée dynamiquement selon l'index -->
         <div class="carte-haut" [style.background]="getCouleur(i)"></div>
         <div class="carte-bas">{{ modele.nomMateriel }}</div>
       </div>
       }
     </div>
 
+    <!-- Bouton retour vers la liste des catégories -->
     <button class="retour" (click)="retour()">Retour</button>
   </div>
   }
 
-  <!-- Liste des catégories -->
+  <!-- Vue 3 : Liste de toutes les catégories (vue par défaut) -->
   @else {
   <div class="liste-materiels">
     <div class="titre-description">
@@ -68,8 +93,10 @@
     </div>
 
     <div class="cartes-horizontal">
+      <!-- Boucle sur toutes les catégories, clic → affiche les matériels de la catégorie -->
       @for (categorie of categories; track categorie.id; let i = $index) {
       <div class="carte-materiel" (click)="selectionnerCategorie(categorie)">
+        <!-- Couleur de la carte générée dynamiquement selon l'index -->
         <div class="carte-haut" [style.background]="getCouleur(i)"></div>
         <div class="carte-bas">{{ categorie.libelleCategorie }}</div>
       </div>
